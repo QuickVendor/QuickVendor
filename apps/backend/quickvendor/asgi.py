@@ -1,15 +1,13 @@
-"""
-ASGI config for quickvendor project.
-
-It exposes the ASGI callable as a module-level variable named ``application``.
-
-For more information on this file, see
-https://docs.djangoproject.com/en/stable/howto/deployment/asgi/
-"""
-
 import os
-from django.core.asgi import get_asgi_application
+import django
+from channels.routing import ProtocolTypeRouter, URLRouter
+from channels.auth import AuthMiddlewareStack
+from django.urls import path
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'quickvendor.settings')
+django.setup()
 
-application = get_asgi_application()
+application = ProtocolTypeRouter({
+    "http": get_asgi_application(),
+    # (http->django views is added by default)
+})
